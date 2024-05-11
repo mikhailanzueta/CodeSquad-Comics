@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="./public/images/styles/styles.css">
+    <script src="https://kit.fontawesome.com/31e61729e7.js" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+
+    <div class="Navbar-container">
+        <div class="Navbar">
+            <nav class="navbar-logo">
+                <img src="public/images/CodeSquad-Comics-logo.png" alt="codesquad-comics-logo"/>
+            </nav>
+        </div>
+        <div class="nav-links">
+            <ul class="navbar-navigation">
+                <li>
+                    <a href="index.html">HOME</a>
+                </li>
+                <li>
+                    <a href="about.html">ABOUT</a>
+                </li>
+                <li>
+                    <a href="login.html">LOGIN</a>
+                </li>
+            </ul>
+        </div>
+        <input type="checkbox" id="check">
+        <label for="check" class="check-btn">
+            <i class="fa fa-bars"></i>
+        </label>
+    </div>
+
+    <div class="update-comic-container">
+        <div class="update-create-comic">
+            <h1>UPDATE COMIC</h1>
+            <form action="#" class="update-comic-form">
+                <div>
+                    <label for="title" class="title-field">Title: 
+                        <input type="text" value="title value stored in the database" class="title-input" id="title" placeholder="Title"/>
+                    </label>
+                </div>
+                <br>
+                <div>
+                    <label for="author" class="author-field">Author:
+                        <input type="text" value="author value stored in the database" class="author-input" id="author" placeholder="Author"/>
+                    </label>
+                </div>
+                <br>
+                <div>
+                    <label for="publisher">Publisher: 
+                        <select name="publisher" id="publisher">
+                            <option value="publisher value stored in the database" selected>publisher value stored in the database</option>
+                            <option value="BOOM! Box" disabled>BOOM! Box</option>
+                            <option value="DC Comics" disabled>DC Comics</option>
+                            <option value="Harry N. Abrams" disabled>Harry N. Abrams</option>
+                            <option value="Icon Books" disabled>Icon Books</option>
+                            <option value="Image Comics" disabled>Image Comics</option>
+                            <option value="Marvel" disabled>Marvel</option>
+                            <option value="Simon & Schuster" disabled>Simon & Schuster</option>
+                            <option value="Top Shelf Productions" disabled>Top Shelf Productions</option>
+                            <option value="VIZ Media LLC" disabled>VIZ Media LLC</option>
+                        </select>
+                    </label>
+                </div>
+                <br>
+                <div>
+                    <label for="genre">Genre:
+                        <input type="text" value="genre data stored in the database" class="genre-input" id="genre" placeholder="Genre"/>
+                    </label>
+                </div>
+                <br>
+                <div>
+                    <label for="pages">Number of Pages: 
+                        <input type="text" value="" class="pages-input" id="pages" placeholder="Pages stored in database"/>
+                    </label>
+                </div>
+                <br>
+                <div>
+                    <label for="rating">Rating: 
+                        <input type="text" value="" class="rating-input" id="rating" placeholder="Rating stored in database"/>
+                    </label>
+                </div>
+                <br>
+                <div>
+                    <label for="synopsis">Synopsis: 
+                        <textarea name="synopsis" id="synopsis" placeholder="Ssynopsis value stored in the database"></textarea>
+                    </label>
+                </div>
+                <br>
+                <button id="button">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer-container">
+        <div class="Footer">
+            <div class="visit-us">
+                <h2>VISIT US</h2>
+                <p>
+                    CodeSquad Comics
+                    <br>
+                    123 Dorchester Avenue
+                    <br>
+                    Boston, MA 02124
+                </p>
+            </div>
+        
+            <div class="Links">
+                <h2>LINKS</h2>
+                <p>
+                    <a href="#">Home</a>
+                    <br>
+                    <a href="#">About</a>
+                    <br>
+                    <a href="#">Login</a>
+                </p>
+            </div>
+            
+            <div class="Follow-Us">
+                <h2>FOLLOW US</h2>
+                <p>
+                    <a href="#">Facebook</a>
+                    <br>
+                    <a href="#">Instagram</a>
+                    <br>
+                    <a href="#">Twitter</a>
+                </p>
+            </div>
+        
+            <div class="Product-Of-Footer">
+                <h2>A PRODUCT OF</h2>
+                <a href="http://codesquad.org/" target="_blank" rel="nofollow">
+                    <img src="public/images/CodeSquad-logo-b.png" alt="CodeSquad-logo-a"/>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
