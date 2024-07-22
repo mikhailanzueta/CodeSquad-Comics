@@ -12,9 +12,18 @@ const getAllBooks = async (request, response, next) => {
 // Create an asynchronous handler function called 'getBook':
 const getBook = async (request, response, next) => {
     const { id } = request.params;
-    
+    console.log(id)
     // stage a try/catch statement:
-    await Book.findOne({_id: id}).then((foundBook)).response.json({data: foundBook});
+    try {
+        await Book.findOne({ _id: id }).then((foundBook) => {
+            response.status(200).json({
+              success: { message: 'Found the book!' },
+              data: foundBook, //Within the json component, change the data value to foundBook
+              statusCode: 200,
+        })})
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 // Create an asynchronous handler function called 'createBook':
@@ -24,7 +33,7 @@ const createBook = async (request, response, next) => {
 
     // create a variable called 'newBook' and equate that to a constructor object called new Book() with keys that are 
     // the same as the keys in 'data.js' file:
-    const newBook = new booksData({
+    const newBook = new Book({
         title: title,
         author: author,
         publisher: publisher,
@@ -53,7 +62,7 @@ const editBook = async (request, response, next) => {
 
     // Stage a try/catch statement:
     try {
-        await booksData.findByIdAndUpdate(id,  {$set: {
+        const updatedBook = await Book.findByIdAndUpdate(id,  {$set: {
             title,
             author,
             publisher,
@@ -61,7 +70,10 @@ const editBook = async (request, response, next) => {
             pages,
             rating,
             synopsis}}, {new: true})
-        response.status(201).json({success: {message: "Book is updated!"}, data: newBook, statusCode: 201})
+        if (!updatedBook) {
+            return response.status(404).json({ error: { message: "Book not found" }, statusCode: 404 });
+        }
+        response.status(200).json({success: {message: "Book is updated!"}, data: updatedBook, statusCode: 200})
     } catch (error) {
         response.status(400).json({error: {message: "Something went wrong while editing the book ~"}, statusCode: 400})
     }

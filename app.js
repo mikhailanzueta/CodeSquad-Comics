@@ -3,7 +3,7 @@ require('./config/connection');
 require('./config/authStrategy');
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
