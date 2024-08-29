@@ -1,32 +1,41 @@
 require('dotenv').config();
 require('./config/connection');
 require('./config/authStrategy');
+
 const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 8080;
 const morgan = require('morgan');
-const cors = require('cors');
 const helmet = require('helmet');
-const session = require('express-session');
-const passport = require('passport');
 // REQUIRE PATH MODULE
 const path = require('node:path');
-// USE JSON
-app.use(express.json());
-// Encode forms
-app.use(express.urlencoded({ extended: true }));
-// Use the public directory
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use(cors);
-app.use(helmet({contentSecurityPolicy: false}));
-
-
-// -------------------------------------------------------------
+const session = require('express-session');
+const passport = require('passport');
+const cors = require('cors');
 
 // Define routes:
 const bookRoutes = require('./routes/booksRoutes');
 const authRoutes = require('./routes/authRoutes');
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+
+app.use(cors());
+app.use(helmet({contentSecurityPolicy: false}));
+
+
+// USE JSON
+app.use(express.json());
+// Use the public directory
+app.use(express.static(path.join(__dirname, "public")));
+// Encode forms
+app.use(express.urlencoded({ extended: true }));
+
+
+
+
+// -------------------------------------------------------------
+
+
 
 
 // -------------------------------------------------------------

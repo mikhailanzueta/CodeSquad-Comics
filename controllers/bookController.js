@@ -15,7 +15,7 @@ const getBook = async (request, response, next) => {
     console.log(id)
     // stage a try/catch statement:
     try {
-        await Book.findOne({ _id: id }).then((foundBook) => {
+        await Book.findById(id).then((foundBook) => {
             response.status(200).json({
               success: { message: 'Found the book!' },
               data: foundBook, //Within the json component, change the data value to foundBook

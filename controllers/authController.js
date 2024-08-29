@@ -7,6 +7,7 @@ const loginLocalFailed = async (req, res, next) => {
     res.status(401).json({error: {message: "Username or password is incorrect."}, statusCode: 401})
 }
 
+
 // create an async function called 'logoutRequest'
 const logOutRequest = async (req, res, next) => {
     passport.logout((error) => {
@@ -22,6 +23,7 @@ const logOutRequest = async (req, res, next) => {
 const signupRequest = async (req, res, next) => {
     // define future form keys and in order to capture user input for our database:
     const { firstName, lastName, username, password } = req.body;
+    console.log(req.body)
      bcrypt.hash(password, 10, async (error, hashedPassword) => {
         if(error) {
             return next(error)
@@ -44,6 +46,8 @@ const signupRequest = async (req, res, next) => {
                 }
             })
         } catch(error) {
+            console.log(error)
+            const errorCode = error.code
             if (errorCode === 11000 && error.keyPattern.username) {
                 res.status(400).json({error: {message: "Username already exists"}, statusCode: 400})
             } else {

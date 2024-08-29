@@ -23,10 +23,10 @@ const userSchema = new Schema({
     salt: {
         type: Buffer
     },
-    strategy: {
-        type: String,
-        required: true
-    }
+    // strategy: {
+    //     type: String,
+    //     required: true
+    // }
 });
 
 // Create a new variable called User that has the Mongoose model as the value:

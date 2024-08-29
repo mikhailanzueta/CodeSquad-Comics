@@ -12,18 +12,23 @@ const User = require('../models/userModel')
 // implement the local strategy:
 passport.use(new LocalStrategy((
     verify = (username, password, done) => {
-        User.findOne({username: username}).then((User) => {
-            if (!User) {
+        User.findOne({username: username}).then((user) => {
+            if (!user) {
                 return done(null, false, {message: "User not found"})
             }
-            bcrypt.compare(password, User.password, (error, result) => {
+            const hashedPassword = user.password.toString()
+            const providedPassword = password.toString()
+
+            console.log("password from DB: ", hashedPassword)
+            console.log("password provided: ", providedPassword)
+            bcrypt.compare(providedPassword, hashedPassword, (error, result) => {
                 if (error) {
                     return done(error)
                 }
-                return done(null, User)
+                return done(null, user)
             })
-            .catch((error) => console.log(`User not found ${error}`));
         })
+        .catch((error) => console.log(`User not found ${error}`));
     }
 )))
 
