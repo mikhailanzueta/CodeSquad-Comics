@@ -10,13 +10,18 @@ const loginLocalFailed = async (req, res, next) => {
 
 // create an async function called 'logoutRequest'
 const logOutRequest = async (req, res, next) => {
-    passport.logout((error) => {
-        if(error) {
-            res.status(400).json({error: {message: "Something went wrong!"}, statusCode: 400})
-        } else {
-            res.status(200).json({success: {message: "User logged out!"}, statusCode: 200})
+    req.logout((error) => {
+        if (error) {
+            return next(error); // Pass the error to the next middleware or error handler
         }
-    })
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(400).json({ error: { message: "Failed to destroy session!" }, statusCode: 400 });
+            }
+            res.clearCookie('connect.sid'); // clear the session cookie
+            res.status(200).json({ success: { message: "User logged out!" }, statusCode: 200 });
+        });
+    });
 };
 
 // create an async function called 'signupRequest'
@@ -42,7 +47,11 @@ const signupRequest = async (req, res, next) => {
                 if(error) {
                     res.status(400).json({error: {message: "Something went wrong while signing up!"}, statusCode: 400})
                 } else {
-                    res.status(200).json({success: {message: "User signed up and logged in!"}, statusCode: 200})
+                    res.status(200).json({success: {message: "User signed up and logged in!"}, statusCode: 200, data: {
+                        firstName: newUser.firstName,
+                        lastName: newUser.lastName,
+                        username: newUser.username
+                    }})
                 }
             })
         } catch(error) {
