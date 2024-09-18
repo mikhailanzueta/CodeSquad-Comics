@@ -13,7 +13,11 @@ router.get("/:id", getBook)
 
 router.post("/create", createBook)
 
-router.put("/edit/:id", editBook)
+router.put("/edit/:id", (req, res, next) => {
+    console.log("Edit route hit with ID:", req.params.id);
+    next();
+}, editBook);
+
 
 router.delete("/delete/:id", deleteBook)
 
