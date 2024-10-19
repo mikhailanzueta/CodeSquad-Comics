@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('./config/connection');
 require('./config/authStrategy');
+require('./config/cloudinary');
 
 const express = require('express');
 const morgan = require('morgan');

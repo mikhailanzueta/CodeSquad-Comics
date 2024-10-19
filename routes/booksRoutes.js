@@ -3,6 +3,7 @@ const express = require('express');
 const { getBook, getAllBooks, createBook, editBook, deleteBook } = require('../controllers/bookController');
 // require 'express.router'
 const router = express.Router();
+const { upload } = require('../config/cloudinary');
 
 // -------------------------------------------------------------
 
@@ -11,7 +12,14 @@ router.get("/", getAllBooks)
 
 router.get("/:id", getBook)
 
-router.post("/create", createBook)
+router.post("/create", upload.single('image'), (req, res, next) => {
+    if (!req.file) {
+        console.log('File not received by Multer')
+    } else {
+        console.log('File received!: ', req.file)
+    }
+    next();
+}, createBook);
 
 router.put("/edit/:id", (req, res, next) => {
     console.log("Edit route hit with ID:", req.params.id);

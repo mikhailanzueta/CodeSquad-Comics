@@ -1,14 +1,22 @@
 // Require the book model:
 const Book = require('../models/bookModel');
 const mongoose = require('mongoose')
-
+const cloudinary = require('../config/cloudinary');
+const multer = require('multer');
 // create an asynchronous handler function called 'getAllBooks':
 const getAllBooks = async (request, response, next) => {
-    await Book.find({}).then((books) => {
-        response.status(200).json({success: {message: "This route points to the books page with all the books."}, 
-        data: books, statusCode: 200})
-    })
+    const books = await Book.find({})
+    try {
+        if (books) {
+            response.status(200).json(books)
+        } else {
+            response.status(400).json({message: "Books could not be found"})
+        }
+    } catch(error) {
+        console.log(error)
+    }
 }
+    
 
 // Create an asynchronous handler function called 'getBook':
 const getBook = async (request, response, next) => {
@@ -31,27 +39,40 @@ const getBook = async (request, response, next) => {
 // Create an asynchronous handler function called 'createBook':
 const createBook = async (request, response, next) => {
     // Define our future form keys to capture user input that will be stored in a future database. Equate them to the 'req.body' object:
-    const { title, author, publisher, genre, pages, rating, synopsis } = request.body;
+    const { title, author, publisher, genre, pages, rating, synopsis} = request.body;
 
-    // create a variable called 'newBook' and equate that to a constructor object called new Book() with keys that are 
-    // the same as the keys in 'data.js' file:
-    const newBook = new Book({
-        title: title,
-        author: author,
-        publisher: publisher,
-        genre: genre,
-        pages: pages,
-        rating: rating,
-        synopsis: synopsis
-    });
-
-    // Stage a try/catch statement:
     try {
-        // save the new book:
+        // Check if an image is uploaded
+        let imageUrl = null;
+        if (request.file) {
+            imageUrl = request.file.path; // Multer stores the uploaded file URL here via Cloudinary
+        }
+
+        // Create a new book object
+        const newBook = new Book({
+            title,
+            author,
+            publisher,
+            genre,
+            pages,
+            rating,
+            synopsis,
+            image: imageUrl // Store the image URL in the book document
+        });
+
+        // Save the new book to the database
         await newBook.save();
-        response.status(201).json({success: {message: "A new book is created!"}, data: newBook, statusCode: 201})
+        response.status(201).json({
+            success: { message: "A new book is created!" },
+            data: newBook,
+            statusCode: 201
+        });
     } catch (error) {
-        response.status(400).json({error: {message: "Something went wrong creating a book!"}, statusCode: 400})
+        console.error(error);
+        response.status(400).json({
+            error: { message: "Something went wrong creating a book!" },
+            statusCode: 400
+        });
     }
 }
 
@@ -60,7 +81,8 @@ const editBook = async (req, res) => {
     try {
         const { id } = req.params;
         // Define our future form keys to capture user input that will be stored in a future database. Equate them to the 'req.body' object:
-        const { title, author, publisher, genre, pages, rating, synopsis } = request.body;
+        const { title, author, publisher, genre, pages, rating, synopsis, image } = req.body;
+        
 
         // Check if the provided ID is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -76,14 +98,15 @@ const editBook = async (req, res) => {
             genre,
             pages,
             rating,
-            synopsis
+            synopsis,
+            image
         }}, { new: true });
 
         if (!updatedBook) {
             return res.status(404).send({ message: 'Book not found' });
+        } else {
+            res.status(200).json(updatedBook);
         }
-
-        res.status(200).json(updatedBook);
     } catch (error) {
         res.status(500).send({ message: `Error updating the book: ${error.message}` });
     }
